@@ -1,0 +1,11 @@
+{
+  "name": "social-media-login",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "meteor-node-stubs": "~0.2.0"
+  }
+}

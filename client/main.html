@@ -1,0 +1,44 @@
+<head>
+  <title>simple</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+  <div class="container">
+    {{#if currentUser}}
+      {{>profile}}
+    {{else}}
+      {{> login}}
+    {{/if}}
+  </div>
+</body>
+
+<template name="login">
+  <h3>Login</h3>
+
+  <div class="login-buttons col-sm-4">
+    <a data-social-login="loginWithTwitter" class="btn btn-block btn-social btn-twitter waves-effect waves-light">
+      Sign in with <span class="fa fa-twitter"></span>
+    </a>
+    <a data-social-login="loginWithFacebook" class="btn btn-block btn-social btn-facebook waves-effect waves-light">
+      Sign in with <span class="fa fa-facebook"></span>
+    </a>
+    <a data-social-login="loginWithGoogle" class="btn btn-block btn-social btn-google waves-effect waves-light">
+      Sign in with <span class="fa fa-google"></span>
+    </a>
+  </div>
+
+</template>
+
+<template name="profile">
+  <h3>Profile</h3>
+  <div class="user-info">
+    <img src="{{currentUser.profile.picture}}" height="90" />
+    <p>{{currentUser.profile.name}}</p>
+  </div>
+
+  <div class="logout-buttons col-sm-4">
+    <a class="btn btn-block btn-logout waves-effect waves-light">Logout</a>
+  </div>
+</template>
