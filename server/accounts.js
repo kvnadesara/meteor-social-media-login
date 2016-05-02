@@ -32,22 +32,42 @@ ServiceConfiguration.configurations.insert({
 
 
 Accounts.onCreateUser(function(options, user) {
+  debug('inside onCreateUser');
   user.profile = options.profile || {};
-  //Twitter returns some useful info as the username and the picture
-  if (user.services.twitter) {
-    user.profile.picture = user.services.twitter.profile_image_url_https;
-    user.profile.username = user.services.twitter.screenName;
-    user.profile.id = user.services.twitter.id;
-  } else if(user.services.facebook) {
+  var ref, ref1, ref2, ref3, ref4, ref5, ref6, serviceName;
+  serviceName = null;
+  if (((ref = user.services) != null ? ref.facebook : void 0) != null) {
+    serviceName = 'facebook';
     user.profile.picture = 'http://graph.facebook.com/' + user.services.facebook.id + '/picture/?type=large';
-    user.profile.username = user.services.facebook.name;
-    user.profile.id = user.services.facebook.id;
-    user.profile.email = user.services.facebook.email;
-  } else if(user.services.google) {
+  } else if (((ref1 = user.services) != null ? ref1.google : void 0) != null) {
+    serviceName = 'google';
     user.profile.picture = user.services.google.picture;
-    user.profile.username = user.services.google.name;
-    user.profile.id = user.services.google.id;
-    user.profile.email = user.services.google.email;
+  } else if (((ref2 = user.services) != null ? ref2.github : void 0) != null) {
+    serviceName = 'github';
+  } else if (((ref3 = user.services) != null ? ref3['meteor-developer'] : void 0) != null) {
+    serviceName = 'meteor-developer';
+  } else if (((ref4 = user.services) != null ? ref4.twitter : void 0) != null) {
+    serviceName = 'twitter';
+    user.profile.picture = user.services.twitter.profile_image_url_https;
+  }
+  if (serviceName === 'facebook' || serviceName === 'google' || serviceName === 'meteor-developer' || serviceName === 'github' || serviceName === 'twitter') {
+    if (((user != null ? user.name : void 0) == null) || user.name === '') {
+      if (((ref5 = options.profile) != null ? ref5.name : void 0) != null) {
+        user.name = (ref6 = options.profile) != null ? ref6.name : void 0;
+      } else if (user.services[serviceName].name != null) {
+        user.name = user.services[serviceName].name;
+      } else {
+        user.name = user.services[serviceName].username;
+      }
+    }
+    if (user.services[serviceName].email) {
+      user.emails = [
+        {
+          address: user.services[serviceName].email,
+          verified: true
+        }
+      ];
+    }
   }
   return user;
 });

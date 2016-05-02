@@ -2,7 +2,7 @@
   "name": "social-media-login",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "DEBUG=app:* meteor run"
   },
   "dependencies": {
     "debug": "^2.2.0",
